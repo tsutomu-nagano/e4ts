@@ -1,6 +1,9 @@
 
-
-
+#' @title create stat table
+#' @description create stat table
+#' @param df data.table
+#' @param dimensions column names string vector
+#' @param measure A measure class
 #' @importFrom tidyr nest
 #' @importFrom tidyr unnest
 #' @importFrom tidyr hoist
