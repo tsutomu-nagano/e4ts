@@ -1,2 +1,2 @@
 # e4ts
-engine for tidy stat table
+engine for statistical tables using tidy datas.

@@ -1,22 +1,32 @@
 library(data.table)
 
-test_that("measure_total test", {
+test_that("measure_sum test", {
 
     df <- data.frame(list(F1 = c(1, 2, 3)))
-    f <- measure_total$new(name = "F1")
+    f <- measure_sum$new(name = "F1")
     f$init()
     f$calc(df)
     expect_equal(f$ret, 6)
 
 })
 
-test_that("measure_avarage test", {
+test_that("measure_avarage test1", {
 
     df <- data.frame(list(F1 = c(10, 5, 27), F2 = c(1, 2, 3)))
-    f <- measure_average$new(num_name = "F1", den_name = "F2")
+    f <- measure_average$new(name = "F1", den_name = "F2")
     f$init()
     f$calc(df)
     expect_equal(f$ret, 7)
+
+})
+
+test_that("measure_avarage test2", {
+
+    df <- data.frame(list(F1 = c(10, 20, 30, 40, 50, 60)))
+    f <- measure_average$new(name = "F1")
+    f$init()
+    f$calc(df)
+    expect_equal(f$ret, 35)
 
 })
 
@@ -140,3 +150,33 @@ test_that("measure_sd test3", {
         )
 
 })
+
+
+test_that("measure_var test4", {
+
+    df <- data.frame(list(F1 = c(10)))
+    f1 <- measure_var$new(name = "F1")
+    f1$init()
+    f1$calc(df)
+
+    expect_equal(
+        round(f1$ret, digits = 4),
+        round(0, digits = 4)
+        )
+
+})
+
+test_that("measure_sd test4", {
+
+    df <- data.frame(list(F1 = c(10)))
+    f1 <- measure_sd$new(name = "F1")
+    f1$init()
+    f1$calc(df)
+
+    expect_equal(
+        round(f1$ret, digits = 4),
+        round(0, digits = 4)
+        )
+
+})
+

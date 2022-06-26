@@ -2,14 +2,14 @@
 % Please edit documentation in R/measure.R
 \name{measure_base}
 \alias{measure_base}
-\title{R6 Class representing a person}
+\title{Master class for aggregate items}
 \description{
-R6 Class representing a person
+Master class for aggregate items
 
-R6 Class representing a person
+Master class for aggregate items
 }
 \details{
-A person has a name and a hair color.
+When creating aggregate items, be sure to inherit from and implement this class.
 }
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}

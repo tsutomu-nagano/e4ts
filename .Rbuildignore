@@ -1,3 +1,4 @@
 ^LICENSE\.md$
 ^e4ts\.Rproj$
 ^\.Rproj\.user$
+^test.R$
