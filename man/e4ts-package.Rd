@@ -4,12 +4,12 @@
 \name{e4ts-package}
 \alias{e4ts}
 \alias{e4ts-package}
-\title{e4ts: What the Package Does (One Line, Title Case)}
+\title{e4ts: engine for statistical tables using tidy datas}
 \description{
 What the package does (one paragraph).
 }
 \author{
-\strong{Maintainer}: First Last \email{first.last@example.com} (\href{https://orcid.org/YOUR-ORCID-ID}{ORCID})
+\strong{Maintainer}: tsutomu nagano \email{first.last@example.com} (\href{https://orcid.org/YOUR-ORCID-ID}{ORCID})
 
 }
 \keyword{internal}

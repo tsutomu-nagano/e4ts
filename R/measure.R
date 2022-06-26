@@ -1,9 +1,18 @@
 
 
 
-#' Master class for aggregate items
-#'
-#' When creating aggregate items, be sure to inherit from and implement this class.
+#' @title Master class for aggregate items
+#' @description When creating aggregate items, be sure to inherit from and implement this class.
+#' @field ret return value
+#' @field name using column name
+#' @field count data count
+#' @field sum sum data
+#' @field min min in the data
+#' @field max max in the data
+#' @field top1 top1 value in the data
+#' @field top2 top2 value in the data
+#' @field rate Percentage of top1 in sum
+#' @field added is added
 #' @importFrom R6 R6Class
 measure_base <- R6Class("measure_base",
     private = list(
@@ -13,7 +22,7 @@ measure_base <- R6Class("measure_base",
     ),
     public = list(
 
-        #' @field name First or full name of the person.
+
         ret = NULL,
         name = NULL,
         count = NULL,
@@ -23,11 +32,10 @@ measure_base <- R6Class("measure_base",
         top1 = NULL,
         top2 = NULL,
         rate = NULL,
-        total = NULL,
+        added = NULL,
 
-        #' @description
-        #' Create a new person object.
-        #' @return A new `Person` object.
+        #' @description Initialize internal variables.
+        #' @export
         init = function() {
             self$ret <- 0
             self$count <- 0
@@ -37,8 +45,12 @@ measure_base <- R6Class("measure_base",
             self$top1 <- 0
             self$top2 <- 0
             self$rate <- 0
-            self$total <- FALSE
+            self$added <- FALSE
         },
+
+        #' @description list of internal variables.
+        #' @export
+        #' @return variables list
         info = function() {
             x <- list(
                 count = self$count,
@@ -48,11 +60,14 @@ measure_base <- R6Class("measure_base",
                 top1 = self$top1,
                 top2 = self$top2,
                 rate = self$rate,
-                total = self$total
+                added = self$added
             )
             return(x)
         },
 
+        #' @description calculation.
+        #' @param data A measure class
+        #' @export
         #' @importFrom dplyr select
         #' @importFrom dplyr %>%
         #' @importFrom dplyr rename
@@ -79,6 +94,10 @@ measure_base <- R6Class("measure_base",
             self$rate <- self$top1 / self$sum
             self$calc_core(data)
         },
+
+        #' @description Add up the data.
+        #' @param target A measure class
+        #' @export
         add = function(target) {
 
             tops <- c(self$top1, self$top2, target$top1, target$top2)
@@ -91,28 +110,36 @@ measure_base <- R6Class("measure_base",
             self$top2 <- private$top_n(tops, 2)
             self$rate <- self$top1 / self$sum
 
-            self$total <- TRUE
+            self$added <- TRUE
             self$add_core(target)
         }
     )
 )
 
-#' Master class for aggregate items
-#'
-#' When creating aggregate items, be sure to inherit from and implement this class.
+#' @title measure class for sum
+#' @description measure class for sum.
 #' @importFrom R6 R6Class
 measure_sum <- R6Class("measure_sum",
     inherit = measure_base,
     public = list(
+
+        #' @description initialize object.
+        #' @param name using column name
+        #' @export
         initialize = function(name) {
             self$name <- name
         },
 
+        #' @description calculation for sum.
+        #' @param data data.table
         #' @importFrom dplyr select
         #' @importFrom dplyr %>%
         calc_core = function(data) {
             self$ret <- data %>% dplyr::select(one_of(self$name)) %>% sum
         },
+
+        #' @description Add up the data.
+        #' @param target A measure class
         add_core = function(target) {
             self$ret <- self$ret + target$ret
         }

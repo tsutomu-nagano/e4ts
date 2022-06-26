@@ -4,17 +4,30 @@
 \alias{measure_base}
 \title{Master class for aggregate items}
 \description{
-Master class for aggregate items
-
-Master class for aggregate items
-}
-\details{
 When creating aggregate items, be sure to inherit from and implement this class.
 }
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
 \describe{
-\item{\code{name}}{First or full name of the person.}
+\item{\code{ret}}{return value}
+
+\item{\code{name}}{using column name}
+
+\item{\code{count}}{data count}
+
+\item{\code{sum}}{sum data}
+
+\item{\code{min}}{min in the data}
+
+\item{\code{max}}{max in the data}
+
+\item{\code{top1}}{top1 value in the data}
+
+\item{\code{top2}}{top2 value in the data}
+
+\item{\code{rate}}{Percentage of top1 in sum}
+
+\item{\code{added}}{is added}
 }
 \if{html}{\out{</div>}}
 }
@@ -32,41 +45,58 @@ When creating aggregate items, be sure to inherit from and implement this class.
 \if{html}{\out{<a id="method-init"></a>}}
 \if{latex}{\out{\hypertarget{method-init}{}}}
 \subsection{Method \code{init()}}{
-Create a new person object.
+Initialize internal variables.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{measure_base$init()}\if{html}{\out{</div>}}
 }
 
-\subsection{Returns}{
-A new \code{Person} object.
-}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-info"></a>}}
 \if{latex}{\out{\hypertarget{method-info}{}}}
 \subsection{Method \code{info()}}{
+list of internal variables.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{measure_base$info()}\if{html}{\out{</div>}}
 }
 
+\subsection{Returns}{
+variables list
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-calc"></a>}}
 \if{latex}{\out{\hypertarget{method-calc}{}}}
 \subsection{Method \code{calc()}}{
+calculation.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{measure_base$calc(data)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{data}}{A measure class}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-add"></a>}}
 \if{latex}{\out{\hypertarget{method-add}{}}}
 \subsection{Method \code{add()}}{
+Add up the data.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{measure_base$add(target)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{target}}{A measure class}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-clone"></a>}}

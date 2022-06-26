@@ -2,9 +2,9 @@
 % Please edit documentation in R/measure.R
 \name{measure_sum}
 \alias{measure_sum}
-\title{Master class for aggregate items}
+\title{measure class for sum}
 \description{
-When creating aggregate items, be sure to inherit from and implement this class.
+measure class for sum.
 }
 \section{Super class}{
 \code{\link[e4ts:measure_base]{e4ts::measure_base}} -> \code{measure_sum}
@@ -32,28 +32,52 @@ When creating aggregate items, be sure to inherit from and implement this class.
 \if{html}{\out{<a id="method-new"></a>}}
 \if{latex}{\out{\hypertarget{method-new}{}}}
 \subsection{Method \code{new()}}{
+initialize object.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{measure_sum$new(name)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{name}}{using column name}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-calc_core"></a>}}
 \if{latex}{\out{\hypertarget{method-calc_core}{}}}
 \subsection{Method \code{calc_core()}}{
+calculation for sum.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{measure_sum$calc_core(data)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{data}}{data.table}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-add_core"></a>}}
 \if{latex}{\out{\hypertarget{method-add_core}{}}}
 \subsection{Method \code{add_core()}}{
+Add up the data.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{measure_sum$add_core(target)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{target}}{A measure class}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-clone"></a>}}

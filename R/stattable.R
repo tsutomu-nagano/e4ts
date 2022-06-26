@@ -95,7 +95,7 @@ stattable <- function(df, dimensions, measure) {
             top1 = "top1",
             top2 = "top2",
             rate = "rate",
-            total = "total"
+            added = "added"
             ) %>%
         dplyr::rename("value" = ret) %>%
         tidyr::unnest("value") %>%
