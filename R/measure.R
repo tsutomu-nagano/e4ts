@@ -256,3 +256,68 @@ measure_sd <- R6Class("measure_sd",
     )
 )
 
+
+measure_min <- R6Class("measure_min",
+    inherit = measure_base,
+    public = list(
+        initialize = function(name) {
+            self$name <- name
+        },
+
+        #' @importFrom dplyr select
+        #' @importFrom dplyr %>%
+        #' @importFrom dplyr pull
+        calc_core = function(data) {
+            self$ret <- self$min
+        },
+        add_core = function(target) {
+
+            self$ret <- self$min
+
+        }
+    )
+)
+
+measure_max <- R6Class("measure_max",
+    inherit = measure_base,
+    public = list(
+        initialize = function(name) {
+            self$name <- name
+        },
+
+        #' @importFrom dplyr select
+        #' @importFrom dplyr %>%
+        #' @importFrom dplyr pull
+        calc_core = function(data) {
+            self$ret <- self$max
+        },
+        add_core = function(target) {
+
+            self$ret <- self$max
+
+        }
+    )
+)
+
+
+# measure_q4_1 <- R6Class("measure_q4_1",
+#     inherit = measure_base,
+#     public = list(
+#         initialize = function(name) {
+#             self$name <- name
+#         },
+
+#         #' @importFrom dplyr select
+#         #' @importFrom dplyr %>%
+#         #' @importFrom dplyr pull
+#         calc_core = function(data) {
+#             self$ret <- quantile(data)
+#         },
+#         add_core = function(target) {
+
+#             self$ret <- self$max
+
+#         }
+#     )
+# )
+

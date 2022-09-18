@@ -180,3 +180,64 @@ test_that("measure_sd test4", {
 
 })
 
+test_that("measure_min test1", {
+
+    df <- data.frame(list(F1 = c(10, 5, 18)))
+    f1 <- measure_min$new(name = "F1")
+    f1$init()
+    f1$calc(df)
+
+    expect_equal(f1$ret, 5)
+
+})
+
+test_that("measure_min test2", {
+
+    df1 <- data.frame(list(F1 = c(10, 5, 18)))
+    f1 <- measure_min$new(name = "F1")
+    f1$init()
+    f1$calc(df1)
+
+
+    df2 <- data.frame(list(F1 = c(10, 1, 18)))
+    f2 <- measure_min$new(name = "F1")
+    f2$init()
+    f2$calc(df2)
+
+    f1$add(f2)
+
+    expect_equal(f1$ret, 1)
+
+})
+
+test_that("measure_max test1", {
+
+    df <- data.frame(list(F1 = c(10, 5, 18)))
+    f1 <- measure_max$new(name = "F1")
+    f1$init()
+    f1$calc(df)
+
+    expect_equal(f1$ret, 18)
+
+})
+
+test_that("measure_max test2", {
+
+    df1 <- data.frame(list(F1 = c(10, 5, 18)))
+    f1 <- measure_max$new(name = "F1")
+    f1$init()
+    f1$calc(df1)
+
+
+    df2 <- data.frame(list(F1 = c(10, 1, 19)))
+    f2 <- measure_max$new(name = "F1")
+    f2$init()
+    f2$calc(df2)
+
+    f1$add(f2)
+
+    expect_equal(f1$ret, 19)
+
+})
+
+
