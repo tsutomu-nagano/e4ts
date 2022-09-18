@@ -46,11 +46,12 @@ stattable <- function(df, dimensions, measure) {
 
     measure$init()
 
+    func <- "func"
 
     dfx <- df %>%
         tidyr::nest(data = -dimensions) %>%
         dplyr::mutate(
-            func = purrr::map(data, func_calc, base_func = measure)) %>%
+            !!func := purrr::map(data, func_calc, base_func = measure)) %>%
         dplyr::mutate(
             ret = purrr::map(func, func_ret))
 
@@ -66,9 +67,9 @@ stattable <- function(df, dimensions, measure) {
         if (length(dimensions) == 1) {
 
             dfy <- data.table(list(
-                    func = func_sum(dfx)
+                    "func" = func_sum(dfx)
                     )) %>%
-                    dplyr::rename(func = V1)
+                    dplyr::rename("func" = "V1")
         } else {
             nestf <- dimensions[-which(dimensions %in% sumf)]
 
@@ -76,7 +77,7 @@ stattable <- function(df, dimensions, measure) {
                     dplyr::select(-dplyr::one_of(c(sumf, "ret"))) %>%
                     tidyr::nest(-nestf) %>%
                     dplyr::mutate(
-                        func = purrr::map(data, func_sum))
+                        !!func := purrr::map(data, func_sum))
 
         }
         dfy <- dfy %>%
@@ -105,7 +106,7 @@ stattable <- function(df, dimensions, measure) {
             added = "added"
             ) %>%
         dplyr::rename(value = ret) %>%
-        tidyr::unnest(value) %>%
+        tidyr::unnest("value") %>%
         dplyr::arrange(dplyr::across(dimensions))
 
 
