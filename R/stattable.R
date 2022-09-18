@@ -4,6 +4,8 @@
 #' @param df data.table
 #' @param dimensions column names string vector
 #' @param measure A measure class
+#' @param conv missing values conversion method conversion class
+#' @param weight weight name
 #' @importFrom tidyr nest
 #' @importFrom tidyr unnest
 #' @importFrom tidyr hoist
@@ -18,8 +20,13 @@
 #' @importFrom utils data
 #' @importFrom data.table data.table
 #' @export
-stattable <- function(df, dimensions, measure) {
-
+stattable <- function(
+    df,
+    dimensions,
+    measure,
+    conv = conversion_zero$new(),
+    weight = NULL
+    ) {
 
     func_calc <- function(data, base_func) {
         f <- base_func$clone()
@@ -47,6 +54,21 @@ stattable <- function(df, dimensions, measure) {
     measure$init()
 
     func <- "func"
+
+
+    # missing value conversion
+    df <- df %>%
+    conv$convert(measure$name)
+
+    # weight
+    if (!is.null(weight)) {
+        df <- df %>%
+        dplyr::mutate(
+            !!weight := as.numeric(!!as.name(weight)),
+            !!measure$name := !!as.name(measure$name) * !!as.name(weight)
+            )
+    }
+
 
     dfx <- df %>%
         tidyr::nest(data = -dimensions) %>%

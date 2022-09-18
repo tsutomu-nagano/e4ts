@@ -22,7 +22,6 @@ measure_base <- R6Class("measure_base",
     ),
     public = list(
 
-
         ret = NULL,
         name = NULL,
         count = NULL,

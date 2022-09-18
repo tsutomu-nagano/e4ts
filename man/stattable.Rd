@@ -4,7 +4,7 @@
 \alias{stattable}
 \title{create stat table}
 \usage{
-stattable(df, dimensions, measure)
+stattable(df, dimensions, measure, conv = conversion_zero$new(), weight = NULL)
 }
 \arguments{
 \item{df}{data.table}
@@ -12,6 +12,10 @@ stattable(df, dimensions, measure)
 \item{dimensions}{column names string vector}
 
 \item{measure}{A measure class}
+
+\item{conv}{missing values conversion method conversion class}
+
+\item{weight}{weight name}
 }
 \description{
 create stat table
