@@ -17,7 +17,9 @@
 #' @importFrom purrr map
 #' @importFrom utils data
 #' @importFrom data.table data.table
+#' @export
 stattable <- function(df, dimensions, measure) {
+
 
     func_calc <- function(data, base_func) {
         f <- base_func$clone()
@@ -44,15 +46,18 @@ stattable <- function(df, dimensions, measure) {
 
     measure$init()
 
+
     dfx <- df %>%
-        tidyr::nest(-dimensions) %>%
+        tidyr::nest(data = -dimensions) %>%
         dplyr::mutate(
-            "func" = purrr::map(data, func_calc, base_func = measure)) %>%
+            func = purrr::map(data, func_calc, base_func = measure)) %>%
         dplyr::mutate(
-            ret = purrr::map("func", func_ret))
+            ret = purrr::map(func, func_ret))
+
 
     dfx <- dfx %>%
            dplyr::select(-data)
+
 
     columns <- c(dimensions, "func", "ret")
 
@@ -61,9 +66,9 @@ stattable <- function(df, dimensions, measure) {
         if (length(dimensions) == 1) {
 
             dfy <- data.table(list(
-                    "func" = func_sum(dfx)
+                    func = func_sum(dfx)
                     )) %>%
-                    dplyr::rename("func" = "V1")
+                    dplyr::rename(func = V1)
         } else {
             nestf <- dimensions[-which(dimensions %in% sumf)]
 
@@ -71,12 +76,12 @@ stattable <- function(df, dimensions, measure) {
                     dplyr::select(-dplyr::one_of(c(sumf, "ret"))) %>%
                     tidyr::nest(-nestf) %>%
                     dplyr::mutate(
-                        "func" = purrr::map(data, func_sum))
+                        func = purrr::map(data, func_sum))
 
         }
         dfy <- dfy %>%
                     dplyr::mutate(
-                        ret = purrr::map("func", func_ret)) %>%
+                        ret = purrr::map(func, func_ret)) %>%
                     dplyr::mutate(
                         !!sumf := "T") %>%
                     dplyr::select(dplyr::one_of(columns))
@@ -85,10 +90,9 @@ stattable <- function(df, dimensions, measure) {
 
     }
 
-
     ret <- dfx %>%
         dplyr::mutate(
-            "info" = purrr::map("func", func_info)) %>%
+            "info" = purrr::map(func, func_info)) %>%
         tidyr::hoist(
             "info",
             count = "count",
@@ -100,8 +104,8 @@ stattable <- function(df, dimensions, measure) {
             rate = "rate",
             added = "added"
             ) %>%
-        dplyr::rename("value" = ret) %>%
-        tidyr::unnest("value") %>%
+        dplyr::rename(value = ret) %>%
+        tidyr::unnest(value) %>%
         dplyr::arrange(dplyr::across(dimensions))
 
 
