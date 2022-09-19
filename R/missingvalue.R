@@ -16,6 +16,11 @@ conversion_base <- R6Class("conversion_base",
     public = list(
         missing_values = NULL,
         is_missing = NULL,
+
+
+        #' @description initialize object.
+        #' @param missing_values missing_values name character vector
+        #' @export
         initialize = function(missing_values = NULL) {
 
             self$missing_values <- missing_values
@@ -66,6 +71,10 @@ conversion_zero <- R6Class("conversion_zero",
         }
     ),
     public = list(
+
+        #' @description initialize object.
+        #' @param missing_values missing_values name character vector
+        #' @export
         initialize = function(missing_values = NULL) {
             super$initialize(missing_values)
         }

@@ -27,10 +27,18 @@ Converts missing values to 0.
 \if{html}{\out{<a id="method-new"></a>}}
 \if{latex}{\out{\hypertarget{method-new}{}}}
 \subsection{Method \code{new()}}{
+initialize object.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{conversion_zero$new(missing_values = NULL)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{missing_values}}{missing_values name character vector}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-clone"></a>}}

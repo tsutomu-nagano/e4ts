@@ -18,4 +18,8 @@ Imports:
     foreach,
     purrr,
     data.table,
-    rlang
+    rlang,
+    DT,
+    shiny,
+    shinyWidgets,
+    shinydashboard
