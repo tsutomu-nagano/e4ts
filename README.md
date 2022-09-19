@@ -40,3 +40,12 @@ print(st)
 
 ```
 
+## Other
+### GUI
+shiny アプリケーションによるGUIを提供します。
+```R
+library(e4ts)
+front(host = "0.0.0.0", port = 3000)
+```
+![screenshot1](/assets/screenshot1.png)
+![screenshot2](/assets/screenshot2.png)
