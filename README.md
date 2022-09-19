@@ -1,12 +1,12 @@
 # e4ts
 engine for statistical tables using tidy datas.
 
-
 ## Overview
 e4ts は簡易に統計表を作成するためのライブラリです。
-次の機能があります。
+主に次の機能があります。
 - 欠測値の変換
-  - 0への変換
+- 合計算出の設定
+- 複数の集計方法
 
 ## Installation
 ### using devtools
@@ -32,12 +32,11 @@ st <- stattable(
 	)
 
 print(st)
-# A tibble: 3 × 11
+# A tibble: 2 × 11
   F1    func       value count   sum   min   max  top1  top2  rate added
   <chr> <list>     <dbl> <int> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <lgl>
 1 A     <measr_sm>     3     2     3     1     2     2     1 0.667 FALSE
 2 B     <measr_sm>    12     3    12     3     5     5     4 0.417 FALSE
-3 T     <measr_sm>    15     5    15     1     5     5     4 0.333 TRUE 
 
 ```
 
