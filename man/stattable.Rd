@@ -9,7 +9,7 @@ stattable(
   dimensions,
   measure,
   conv = conversion_zero$new(),
-  weight = NULL,
+  weight = "",
   calc_total = FALSE
 )
 }

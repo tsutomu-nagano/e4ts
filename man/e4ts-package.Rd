@@ -9,7 +9,7 @@
 What the package does (one paragraph).
 }
 \author{
-\strong{Maintainer}: tsutomu nagano \email{first.last@example.com} (\href{https://orcid.org/YOUR-ORCID-ID}{ORCID})
+\strong{Maintainer}: tsutomu nagano \email{copyxshow@gmail.com}
 
 }
 \keyword{internal}

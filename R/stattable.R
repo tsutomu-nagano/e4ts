@@ -26,7 +26,7 @@ stattable <- function(
     dimensions,
     measure,
     conv = conversion_zero$new(),
-    weight = NULL,
+    weight = "",
     calc_total = FALSE
     ) {
 
@@ -53,6 +53,7 @@ stattable <- function(
     }
 
 
+
     measure$init()
 
     func <- "func"
@@ -63,13 +64,14 @@ stattable <- function(
     conv$convert(measure$name)
 
     # weight
-    if (!is.null(weight)) {
+    if (weight != "") {
         df <- df %>%
         dplyr::mutate(
             !!weight := as.numeric(!!as.name(weight)),
             !!measure$name := !!as.name(measure$name) * !!as.name(weight)
             )
     }
+
 
 
     dfx <- df %>%
