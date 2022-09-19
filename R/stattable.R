@@ -6,6 +6,7 @@
 #' @param measure A measure class
 #' @param conv missing values conversion method conversion class
 #' @param weight weight name
+#' @param calc_total calculate total bool
 #' @importFrom tidyr nest
 #' @importFrom tidyr unnest
 #' @importFrom tidyr hoist
@@ -25,7 +26,8 @@ stattable <- function(
     dimensions,
     measure,
     conv = conversion_zero$new(),
-    weight = NULL
+    weight = NULL,
+    calc_total = FALSE
     ) {
 
     func_calc <- function(data, base_func) {
@@ -84,33 +86,35 @@ stattable <- function(
 
     columns <- c(dimensions, "func", "ret")
 
-    for (sumf in dimensions) {
+    if (calc_total) {
+        for (sumf in dimensions) {
 
-        if (length(dimensions) == 1) {
+            if (length(dimensions) == 1) {
 
-            dfy <- data.table(list(
-                    "func" = func_sum(dfx)
-                    )) %>%
-                    dplyr::rename("func" = "V1")
-        } else {
-            nestf <- dimensions[-which(dimensions %in% sumf)]
+                dfy <- data.table(list(
+                        "func" = func_sum(dfx)
+                        )) %>%
+                        dplyr::rename("func" = "V1")
+            } else {
+                nestf <- dimensions[-which(dimensions %in% sumf)]
 
-            dfy <- dfx %>%
-                    dplyr::select(-dplyr::one_of(c(sumf, "ret"))) %>%
-                    tidyr::nest(-nestf) %>%
-                    dplyr::mutate(
-                        !!func := purrr::map(data, func_sum))
+                dfy <- dfx %>%
+                        dplyr::select(-dplyr::one_of(c(sumf, "ret"))) %>%
+                        tidyr::nest(-nestf) %>%
+                        dplyr::mutate(
+                            !!func := purrr::map(data, func_sum))
+
+            }
+            dfy <- dfy %>%
+                        dplyr::mutate(
+                            ret = purrr::map(func, func_ret)) %>%
+                        dplyr::mutate(
+                            !!sumf := "T") %>%
+                        dplyr::select(dplyr::one_of(columns))
+
+            dfx <- rbind(dfx, dfy)
 
         }
-        dfy <- dfy %>%
-                    dplyr::mutate(
-                        ret = purrr::map(func, func_ret)) %>%
-                    dplyr::mutate(
-                        !!sumf := "T") %>%
-                    dplyr::select(dplyr::one_of(columns))
-
-        dfx <- rbind(dfx, dfy)
-
     }
 
     ret <- dfx %>%

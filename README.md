@@ -15,7 +15,7 @@ devtools::install_github("tsutomu-nagano/e4ts")
 ```
 
 ## Example
-1. none missing convert + none weight
+### 1. none missing convert + none weight
 ```R
 library(e4ts)
 library(data.table)

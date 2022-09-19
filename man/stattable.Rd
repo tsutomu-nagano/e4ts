@@ -4,7 +4,14 @@
 \alias{stattable}
 \title{create stat table}
 \usage{
-stattable(df, dimensions, measure, conv = conversion_zero$new(), weight = NULL)
+stattable(
+  df,
+  dimensions,
+  measure,
+  conv = conversion_zero$new(),
+  weight = NULL,
+  calc_total = FALSE
+)
 }
 \arguments{
 \item{df}{data.table}
@@ -16,6 +23,8 @@ stattable(df, dimensions, measure, conv = conversion_zero$new(), weight = NULL)
 \item{conv}{missing values conversion method conversion class}
 
 \item{weight}{weight name}
+
+\item{calc_total}{calculate total bool}
 }
 \description{
 create stat table
