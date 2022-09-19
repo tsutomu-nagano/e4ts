@@ -49,3 +49,16 @@ front(host = "0.0.0.0", port = 3000)
 ```
 ![screenshot1](/assets/screenshot1.png)
 ![screenshot2](/assets/screenshot2.png)
+
+### docker
+e4tsを実行可能なRのバージョンのdockerコンテナを提供します。
+```sh
+cd docker
+docker-compose up -d
+
+docker exec -it e4ts /bin/bash
+
+$ R
+> library(e4ts)
+> ........
+```
