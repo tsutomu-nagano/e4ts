@@ -1,0 +1,15 @@
+version: "3.8"
+services:
+  app:
+    build: .
+    image: e4ts:test
+    container_name: e4ts
+
+    stdin_open: true
+    tty: true
+
+    ports:
+      - 3000:3000
+
+    command: /bin/bash
+
