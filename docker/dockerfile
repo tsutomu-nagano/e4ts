@@ -1,0 +1,18 @@
+FROM rocker/r-base:4.1.1
+
+RUN apt -y update && apt -y install \
+	libxml2-dev \
+	libssl-dev \
+	libfontconfig1-dev \
+	libharfbuzz-dev \
+	libfribidi-dev \
+	libcurl4-openssl-dev \
+	libfreetype6-dev \
+	libpng-dev \
+	libtiff5-dev \
+	libjpeg-dev
+
+RUN install2.r -s devtools
+RUN rm -rf /tmp/downloaded_packages
+
+RUN installGithub.r tsutomu-nagano/e4ts
