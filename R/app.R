@@ -194,7 +194,7 @@ front <- function(host = "0.0.0.0", port = 3000) {
                 inputId = "method",
                 label = "method",
                 multiple = FALSE,
-                choices = c("sum", "average", "ver", "sd", "min", "max"),
+                choices = c("sum", "average", "var", "sd", "min", "max"),
                 options = list(
                     size = 5
                 )
