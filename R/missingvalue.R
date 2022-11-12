@@ -11,7 +11,6 @@ conversion_base <- R6Class("conversion_base",
     private = list(
 
 
-
     ),
     public = list(
         missing_values = NULL,
@@ -67,6 +66,34 @@ conversion_zero <- R6Class("conversion_zero",
             dplyr::mutate(!!name := as.numeric(dplyr::if_else(
                 self$is_missing(!!as.name(name)) == TRUE,
                 zero, !!as.name(name))))
+
+        }
+    ),
+    public = list(
+
+        #' @description initialize object.
+        #' @param missing_values missing_values name character vector
+        #' @export
+        initialize = function(missing_values = NULL) {
+            super$initialize(missing_values)
+        }
+    )
+)
+
+#' @title Converts missing values to omit.
+#' @description Converts missing values to omit.
+#' @importFrom R6 R6Class
+#' @export
+conversion_omit <- R6Class("conversion_omit",
+    inherit = conversion_base,
+    private = list(
+        convert_core = function(df, name) {
+
+            df %>%
+            dplyr::mutate(omit = self$is_missing(!!as.name(name))) %>%
+            dplyr::filter(omit == FALSE) %>%
+            dplyr::mutate(!!name := as.numeric(!!as.name(name))) %>%
+            dplyr::select(-omit)
 
         }
     ),

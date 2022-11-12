@@ -135,7 +135,7 @@ stattable <- function(
             ) %>%
         dplyr::rename(value = ret) %>%
         tidyr::unnest("value") %>%
-        dplyr::arrange(dplyr::across(dimensions))
+        dplyr::arrange(dplyr::across(all_of(dimensions)))
 
 
     return(ret)
