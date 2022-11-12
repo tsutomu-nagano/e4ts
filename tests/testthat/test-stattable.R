@@ -6,7 +6,7 @@ test_that("stattable test1", {
     df <- data.frame(list(
         F1 = c("A", "A", "B", "B", "B"),
         F2 = c(1, 2, 3, 4, 5)
-        ))
+        ), stringsAsFactors = FALSE)
     dimensions <- c("F1")
     measure <- measure_sum$new(name = "F2")
 
@@ -30,7 +30,7 @@ test_that("stattable test2", {
         F1 = c("A", "A", "B", "B", "B"),
         F2 = c("1", "2", "3", "4", "5"),
         W1 = c("2", "3", "4", "5", "6")
-        ))
+        ), stringsAsFactors = FALSE)
     dimensions <- c("F1")
     measure <- measure_sum$new(name = "F2")
     weight <- "W1"
@@ -56,7 +56,7 @@ test_that("stattable test3", {
         F1 = c("A", "A", "B", "B", "B"),
         F2 = c("1", "2", "3", "4", "5"),
         W1 = c("2", "3", "4", "5", "6")
-        ))
+        ), stringsAsFactors = FALSE)
     dimensions <- c("F1")
     measure <- measure_sum$new(name = "F2")
     weight <- "W1"

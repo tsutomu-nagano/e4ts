@@ -193,13 +193,13 @@ test_that("measure_min test1", {
 
 test_that("measure_min test2", {
 
-    df1 <- data.frame(list(F1 = c(10, 5, 18)))
+    df1 <- data.frame(list(F1 = c(10, 5, 18)), stringsAsFactors = FALSE)
     f1 <- measure_min$new(name = "F1")
     f1$init()
     f1$calc(df1)
 
 
-    df2 <- data.frame(list(F1 = c(10, 1, 18)))
+    df2 <- data.frame(list(F1 = c(10, 1, 18)), stringsAsFactors = FALSE)
     f2 <- measure_min$new(name = "F1")
     f2$init()
     f2$calc(df2)
@@ -212,7 +212,7 @@ test_that("measure_min test2", {
 
 test_that("measure_max test1", {
 
-    df <- data.frame(list(F1 = c(10, 5, 18)))
+    df <- data.frame(list(F1 = c(10, 5, 18)), stringsAsFactors = FALSE)
     f1 <- measure_max$new(name = "F1")
     f1$init()
     f1$calc(df)
@@ -223,13 +223,13 @@ test_that("measure_max test1", {
 
 test_that("measure_max test2", {
 
-    df1 <- data.frame(list(F1 = c(10, 5, 18)))
+    df1 <- data.frame(list(F1 = c(10, 5, 18)), stringsAsFactors = FALSE)
     f1 <- measure_max$new(name = "F1")
     f1$init()
     f1$calc(df1)
 
 
-    df2 <- data.frame(list(F1 = c(10, 1, 19)))
+    df2 <- data.frame(list(F1 = c(10, 1, 19)), stringsAsFactors = FALSE)
     f2 <- measure_max$new(name = "F1")
     f2$init()
     f2$calc(df2)

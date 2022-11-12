@@ -75,7 +75,7 @@ stattable <- function(
 
 
     dfx <- df %>%
-        tidyr::nest(data = -dimensions) %>%
+        tidyr::nest(data = -dplyr::one_of(dimensions)) %>%
         dplyr::mutate(
             !!func := purrr::map(data, func_calc, base_func = measure)) %>%
         dplyr::mutate(
@@ -135,7 +135,7 @@ stattable <- function(
             ) %>%
         dplyr::rename(value = ret) %>%
         tidyr::unnest("value") %>%
-        dplyr::arrange(dplyr::across(all_of(dimensions)))
+        dplyr::arrange(dplyr::across(dplyr::all_of(dimensions)))
 
 
     return(ret)

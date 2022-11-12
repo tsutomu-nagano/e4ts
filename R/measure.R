@@ -74,7 +74,7 @@ measure_base <- R6Class("measure_base",
         #' @importFrom dplyr n
         calc = function(data) {
             i <- data %>%
-                dplyr::select(one_of(self$name)) %>%
+                dplyr::select(dplyr::one_of(self$name)) %>%
                 dplyr::rename("value" := self$name) %>%
                 dplyr::summarise(
                     count = dplyr::n(),
@@ -134,7 +134,9 @@ measure_sum <- R6Class("measure_sum",
         #' @importFrom dplyr select
         #' @importFrom dplyr %>%
         calc_core = function(data) {
-            self$ret <- data %>% dplyr::select(one_of(self$name)) %>% sum
+            self$ret <- data %>%
+            dplyr::select(dplyr::one_of(self$name)) %>%
+            sum
         },
 
         #' @description Add up the data.
@@ -162,13 +164,15 @@ measure_average <- R6Class("measure_average",
         #' @importFrom dplyr select
         #' @importFrom dplyr %>%
         calc_core = function(data) {
-            self$num <- data %>% dplyr::select(one_of(self$num_name)) %>% sum
+            self$num <- data %>%
+            dplyr::select(dplyr::one_of(self$num_name)) %>%
+            sum
 
             if (is.null(self$den_name)) {
                 self$den <- nrow(data)
             } else {
                 self$den <- data %>%
-                            dplyr::select(one_of(self$den_name)) %>%
+                            dplyr::select(dplyr::one_of(self$den_name)) %>%
                             sum
             }
             self$ret <- self$num / self$den
@@ -196,7 +200,9 @@ measure_var <- R6Class("measure_var",
         #' @importFrom dplyr %>%
         #' @importFrom dplyr pull
         calc_core = function(data) {
-            val <- data %>% dplyr::select(one_of(self$name)) %>% dplyr::pull()
+            val <- data %>%
+            dplyr::select(dplyr::one_of(self$name)) %>%
+            dplyr::pull()
             self$mean <- mean(val)
             self$diff <- sum((val - mean(val)) ^ 2)
 
