@@ -378,3 +378,24 @@ test_that("measure_q4_3 test2", {
     expect_equal(f1$ret, 76)
 
 })
+
+test_that("measure_weighted_mean test1", {
+
+    df <- data.frame(list(F1 = c(10, 5, 27), F2 = c(2, 10, 13)))
+    f <- measure_weighted_mean$new(name = "F1", weight = "F2")
+    f$init()
+    f$calc(df)
+    expect_equal(f$ret, 16.84)
+
+})
+
+test_that("measure_weighted_mean test2", {
+
+    df <- data.frame(list(F1 = c(10, 40, 20), F2 = c(2, 3, 4), W = c(5, 6, 9)))
+    f <- measure_weighted_mean$new(name = "F1", weight = "F2")
+    f$init()
+    f$set_weight("W")
+    f$calc(df)
+    expect_equal(f$ret, 176.5625)
+
+})

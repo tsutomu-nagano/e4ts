@@ -448,3 +448,40 @@ measure_median <- R6Class("measure_median",
 
     )
 )
+
+measure_weighted_mean <- R6Class("measure_weighted_mean",
+    inherit = measure_base,
+    public = list(
+        num_name = NULL,
+        weight_name = NULL,
+        num = NULL,
+        den = NULL,
+        initialize = function(name, weight) {
+            self$num_name <- name
+            self$weight_name <- weight
+            self$name <- name
+            self$selection <- c(name, weight)
+        },
+
+        #' @importFrom dplyr select
+        #' @importFrom dplyr %>%
+        calc_core = function(data) {
+            ret_ <- data %>%
+            dplyr::mutate(
+                num = value * weight * !!as.name(self$weight_name) * weight,
+                den = !!as.name(self$weight_name) * weight
+                ) %>%
+            dplyr::summarise(num = sum(num), den = sum(den))
+
+            self$num <- ret_$num
+            self$den <- ret_$den
+            self$ret <- self$num / self$den
+        },
+        add_core = function(target) {
+            self$num <- self$num + target$num
+            self$den <- self$den + target$den
+
+            self$ret <- self$num / self$den
+        }
+    )
+)
