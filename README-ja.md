@@ -1,4 +1,6 @@
 # e4ts
+[English README is here](https://github.com/tsutomu-nagano/e4ts/blob/main/README.md)
+
 ### `e`ngine `for` statistical tables using `t`idy data`s`.
 
 ## Overview
