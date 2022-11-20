@@ -26,7 +26,7 @@ stattable <- function(
     dimensions,
     measure,
     conv = conversion_zero$new(),
-    weight = "",
+    weight = NULL,
     calc_total = FALSE
     ) {
 
@@ -41,6 +41,7 @@ stattable <- function(
     func_sum <- function(funcs) {
 
         ref <- funcs$func[[1]]$clone()
+        ref$added <- TRUE
         if (nrow(funcs) >= 2) {
             for (idx in 2:nrow(funcs)) {
                 ref$add(funcs$func[[idx]])
@@ -54,23 +55,26 @@ stattable <- function(
 
 
 
+    # measure init and set weight
     measure$init()
+    measure$set_weight(weight)
 
     func <- "func"
 
-
-    # missing value conversion
+    # selection columns and missing value conversion
     df <- df %>%
+    dplyr::select(dplyr::one_of(c(dimensions, measure$selection))) %>%
     conv$convert(measure$name)
 
-    # weight
-    if (weight != "") {
-        df <- df %>%
-        dplyr::mutate(
-            !!weight := as.numeric(!!as.name(weight)),
-            !!measure$name := !!as.name(measure$name) * !!as.name(weight)
-            )
-    }
+    # # set weight
+    # if (weight != "") {
+    #     df <- df %>%
+    #     dplyr::mutate(
+    #         !!weight := as.numeric(!!as.name(weight)),
+    #         !!measure$name := !!as.name(measure$name) * !!as.name(weight),
+    #         freq = !!as.name(weight)
+    #         )
+    # }
 
 
 

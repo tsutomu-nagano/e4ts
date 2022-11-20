@@ -18,14 +18,14 @@ Processes missing values by the selected method..
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-new}{\code{conversion_base$new()}}
-\item \href{#method-convert}{\code{conversion_base$convert()}}
-\item \href{#method-clone}{\code{conversion_base$clone()}}
+\item \href{#method-conversion_base-new}{\code{conversion_base$new()}}
+\item \href{#method-conversion_base-convert}{\code{conversion_base$convert()}}
+\item \href{#method-conversion_base-clone}{\code{conversion_base$clone()}}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-new"></a>}}
-\if{latex}{\out{\hypertarget{method-new}{}}}
+\if{html}{\out{<a id="method-conversion_base-new"></a>}}
+\if{latex}{\out{\hypertarget{method-conversion_base-new}{}}}
 \subsection{Method \code{new()}}{
 initialize object.
 \subsection{Usage}{
@@ -41,8 +41,8 @@ initialize object.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-convert"></a>}}
-\if{latex}{\out{\hypertarget{method-convert}{}}}
+\if{html}{\out{<a id="method-conversion_base-convert"></a>}}
+\if{latex}{\out{\hypertarget{method-conversion_base-convert}{}}}
 \subsection{Method \code{convert()}}{
 missing values convert.
 \subsection{Usage}{
@@ -60,8 +60,8 @@ missing values convert.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-clone"></a>}}
-\if{latex}{\out{\hypertarget{method-clone}{}}}
+\if{html}{\out{<a id="method-conversion_base-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-conversion_base-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{

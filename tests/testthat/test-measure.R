@@ -10,6 +10,18 @@ test_that("measure_sum test", {
 
 })
 
+test_that("measure_sum with weight test", {
+
+    df <- data.frame(list(F1 = c(1, 2, 3), W = c(2, 3, 4)))
+    f <- measure_sum$new(name = "F1")
+    f$init()
+    f$set_weight("W")
+    f$calc(df)
+    expect_equal(f$ret, 20)
+
+})
+
+
 test_that("measure_avarage test1", {
 
     df <- data.frame(list(F1 = c(10, 5, 27), F2 = c(1, 2, 3)))
@@ -27,6 +39,28 @@ test_that("measure_avarage test2", {
     f$init()
     f$calc(df)
     expect_equal(f$ret, 35)
+
+})
+
+test_that("measure_avarage with weight test1", {
+
+    df <- data.frame(list(F1 = c(10, 5, 27), F2 = c(1, 2, 3), W = c(2, 3, 4)))
+    f <- measure_average$new(name = "F1", den_name = "F2")
+    f$init()
+    f$set_weight("W")
+    f$calc(df)
+    expect_equal(f$ret, 7.15)
+
+})
+
+test_that("measure_avarage with weight test2", {
+
+    df <- data.frame(list(F1 = c(10, 20, 30), W = c(2, 3, 5)))
+    f <- measure_average$new(name = "F1")
+    f$init()
+    f$set_weight("W")
+    f$calc(df)
+    expect_equal(f$ret, 23)
 
 })
 
@@ -240,4 +274,107 @@ test_that("measure_max test2", {
 
 })
 
+test_that("measure_q4_1 test1", {
 
+    df1 <- data.frame(list(F1 = seq(51)), stringsAsFactors = FALSE)
+    f1 <- measure_q4_1$new(name = "F1")
+    f1$init()
+    f1$calc(df1)
+
+    expect_equal(f1$ret, 13.5)
+
+})
+
+test_that("measure_q4_1 test2", {
+
+    df1 <- data.frame(
+        list(
+            F1 = seq(51)),
+            stringsAsFactors = FALSE)
+    f1 <- measure_q4_1$new(name = "F1")
+    f1$init()
+    f1$calc(df1)
+
+    df2 <- data.frame(
+        list(
+            F1 = seq(52, 101)),
+            stringsAsFactors = FALSE)
+    f2 <- measure_q4_1$new(name = "F1")
+    f2$init()
+    f2$calc(df2)
+
+    f1$add(f2)
+
+    expect_equal(f1$ret, 26)
+
+})
+
+test_that("measure_median test1", {
+
+    df1 <- data.frame(list(F1 = seq(51)), stringsAsFactors = FALSE)
+    f1 <- measure_median$new(name = "F1")
+    f1$init()
+    f1$calc(df1)
+
+    expect_equal(f1$ret, 26)
+
+})
+
+test_that("measure_median test2", {
+
+    df1 <- data.frame(
+        list(
+            F1 = seq(51)),
+            stringsAsFactors = FALSE)
+    f1 <- measure_median$new(name = "F1")
+    f1$init()
+    f1$calc(df1)
+
+    df2 <- data.frame(
+        list(
+            F1 = seq(52, 101)),
+            stringsAsFactors = FALSE)
+    f2 <- measure_median$new(name = "F1")
+    f2$init()
+    f2$calc(df2)
+
+    f1$add(f2)
+
+    expect_equal(f1$ret, 51)
+
+})
+
+test_that("measure_q4_3 test1", {
+
+    df1 <- data.frame(list(F1 = seq(51)), stringsAsFactors = FALSE)
+    f1 <- measure_q4_3$new(name = "F1")
+    f1$init()
+    f1$calc(df1)
+
+    expect_equal(f1$ret, 38.5)
+
+})
+
+test_that("measure_q4_3 test2", {
+
+    df1 <- data.frame(
+        list(
+            F1 = seq(51)),
+            stringsAsFactors = FALSE)
+    f1 <- measure_q4_3$new(name = "F1")
+    f1$init()
+    f1$calc(df1)
+
+    df2 <- data.frame(
+        list(
+            F1 = seq(52, 101)),
+            stringsAsFactors = FALSE)
+    f2 <- measure_q4_3$new(name = "F1")
+    f2$init()
+    f2$calc(df2)
+
+    f1$add(f2)
+
+    expect_equal(f1$ret, 76)
+
+})

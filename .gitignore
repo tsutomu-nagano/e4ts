@@ -5,6 +5,8 @@
 .DS_Store
 .vscode
 
+.devcontainer/
+
 test.R
 
 remind.md

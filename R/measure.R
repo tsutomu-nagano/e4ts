@@ -5,6 +5,7 @@
 #' @description When creating aggregate items, be sure to inherit from and implement this class.
 #' @field ret return value
 #' @field name using column name
+#' @field weight using weight's column name
 #' @field count data count
 #' @field sum sum data
 #' @field min min in the data
@@ -13,6 +14,7 @@
 #' @field top2 top2 value in the data
 #' @field rate Percentage of top1 in sum
 #' @field added is added
+#' @field selection using all column names.
 #' @importFrom R6 R6Class
 measure_base <- R6Class("measure_base",
     private = list(
@@ -24,6 +26,7 @@ measure_base <- R6Class("measure_base",
 
         ret = NULL,
         name = NULL,
+        weight = NULL,
         count = NULL,
         sum = NULL,
         min = NULL,
@@ -32,6 +35,7 @@ measure_base <- R6Class("measure_base",
         top2 = NULL,
         rate = NULL,
         added = NULL,
+        selection = NULL,
 
         #' @description Initialize internal variables.
         #' @export
@@ -45,6 +49,14 @@ measure_base <- R6Class("measure_base",
             self$top2 <- 0
             self$rate <- 0
             self$added <- FALSE
+        },
+
+        #' @description set using weight name.
+        #' @param weight using weight name.
+        #' @export
+        set_weight = function(weight) {
+            self$weight <- weight
+            self$selection <- c(self$selection, weight)
         },
 
         #' @description list of internal variables.
@@ -73,9 +85,26 @@ measure_base <- R6Class("measure_base",
         #' @importFrom dplyr summarise
         #' @importFrom dplyr n
         calc = function(data) {
+
+            if (is.null(self$weight)) {
+                data <- data %>%
+                    dplyr::rename("value" := self$name) %>%
+                    dplyr::mutate(weight = 1)
+            } else {
+                data <- data %>%
+                    dplyr::rename(
+                        "value" := self$name,
+                        "weight" := self$weight
+                    )
+            }
+
+            data <- data %>%
+                     mutate(
+                        value = as.numeric(value),
+                        weight = as.numeric(weight)
+                    )
+
             i <- data %>%
-                dplyr::select(dplyr::one_of(self$name)) %>%
-                dplyr::rename("value" := self$name) %>%
                 dplyr::summarise(
                     count = dplyr::n(),
                     sum = sum(value),
@@ -84,6 +113,7 @@ measure_base <- R6Class("measure_base",
                     top1 = private$top_n(value, 1),
                     top2 = private$top_n(value, 2),
                     )
+
             self$count <- i$count
             self$sum <- i$sum
             self$min <- i$min
@@ -127,7 +157,9 @@ measure_sum <- R6Class("measure_sum",
         #' @export
         initialize = function(name) {
             self$name <- name
+            self$selection <- c(name)
         },
+
 
         #' @description calculation for sum.
         #' @param data data.table
@@ -135,8 +167,43 @@ measure_sum <- R6Class("measure_sum",
         #' @importFrom dplyr %>%
         calc_core = function(data) {
             self$ret <- data %>%
-            dplyr::select(dplyr::one_of(self$name)) %>%
-            sum
+                        dplyr::mutate(
+                            ret = value * weight
+                        ) %>%
+                        dplyr::select(ret) %>%
+                        sum
+        },
+
+        #' @description Add up the data.
+        #' @param target A measure class
+        add_core = function(target) {
+            self$ret <- self$ret + target$ret
+        }
+    )
+)
+
+
+#' @title measure class for count
+#' @description measure class for count.
+#' @importFrom R6 R6Class
+measure_count <- R6Class("measure_count",
+    inherit = measure_base,
+    public = list(
+
+        #' @description initialize object.
+        #' @param name using column name
+        #' @export
+        initialize = function(name) {
+            self$name <- name
+            self$selection <- c(name)
+        },
+
+        #' @description calculation for sum.
+        #' @param data data.table
+        #' @importFrom dplyr select
+        #' @importFrom dplyr %>%
+        calc_core = function(data) {
+            self$ret <- self$count
         },
 
         #' @description Add up the data.
@@ -159,19 +226,30 @@ measure_average <- R6Class("measure_average",
             self$num_name <- name
             self$den_name <- den_name
             self$name <- name
+            self$selection <- c(name, den_name)
         },
 
         #' @importFrom dplyr select
         #' @importFrom dplyr %>%
         calc_core = function(data) {
             self$num <- data %>%
-            dplyr::select(dplyr::one_of(self$num_name)) %>%
-            sum
+                        dplyr::mutate(
+                            ret = value * weight
+                        ) %>%
+                        dplyr::select(ret) %>%
+                        sum
 
             if (is.null(self$den_name)) {
-                self$den <- nrow(data)
+                self$den <- data %>%
+                            dplyr::select(weight) %>%
+                            sum
             } else {
                 self$den <- data %>%
+                            dplyr::mutate(
+                                !!self$den_name :=
+                                    as.numeric(!!as.name(self$den_name)) *
+                                    weight
+                            ) %>%
                             dplyr::select(dplyr::one_of(self$den_name)) %>%
                             sum
             }
@@ -194,18 +272,16 @@ measure_var <- R6Class("measure_var",
         var = NULL,
         initialize = function(name) {
             self$name <- name
+            self$selection <- c(name)
         },
 
         #' @importFrom dplyr select
         #' @importFrom dplyr %>%
         #' @importFrom dplyr pull
         calc_core = function(data) {
-            val <- data %>%
-            dplyr::select(dplyr::one_of(self$name)) %>%
-            dplyr::pull()
+            val <- dplyr::pull(data, value)
             self$mean <- mean(val)
             self$diff <- sum((val - mean(val)) ^ 2)
-
             self$var <- var(val) * (self$count - 1) / self$count
 
             if (is.na(self$var)) {
@@ -241,6 +317,7 @@ measure_sd <- R6Class("measure_sd",
         sd = NULL,
         initialize = function(name) {
             self$name <- name
+            self$selection <- c(name)
         },
 
         #' @importFrom dplyr select
@@ -267,6 +344,7 @@ measure_min <- R6Class("measure_min",
     public = list(
         initialize = function(name) {
             self$name <- name
+            self$selection <- c(name)
         },
 
         #' @importFrom dplyr select
@@ -288,6 +366,7 @@ measure_max <- R6Class("measure_max",
     public = list(
         initialize = function(name) {
             self$name <- name
+            self$selection <- c(name)
         },
 
         #' @importFrom dplyr select
@@ -305,24 +384,67 @@ measure_max <- R6Class("measure_max",
 )
 
 
-# measure_q4_1 <- R6Class("measure_q4_1",
-#     inherit = measure_base,
-#     public = list(
-#         initialize = function(name) {
-#             self$name <- name
-#         },
+measure_quantile_base <- R6Class("measure_quantile_base",
+    inherit = measure_base,
+    public = list(
 
-#         #' @importFrom dplyr select
-#         #' @importFrom dplyr %>%
-#         #' @importFrom dplyr pull
-#         calc_core = function(data) {
-#             self$ret <- quantile(data)
-#         },
-#         add_core = function(target) {
+        data = NULL,
+        q_name = NULL,
 
-#             self$ret <- self$max
+        initialize = function(name) {
+            self$name <- name
+        },
 
-#         }
-#     )
-# )
+        #' @importFrom dplyr select
+        #' @importFrom dplyr %>%
+        #' @importFrom dplyr pull
+        calc_core = function(data) {
+            self$data <- data
+            self$ret <- quantile(data$value)[[self$q_name]]
+        },
+        add_core = function(target) {
 
+            self$data <- self$data %>%
+                        dplyr::union_all(target$data)
+            self$ret <- quantile(self$data$value)[[self$q_name]]
+
+        }
+    )
+)
+
+
+measure_q4_1 <- R6Class("measure_q4_1",
+    inherit = measure_quantile_base,
+    public = list(
+
+        initialize = function(name) {
+            self$name <- name
+            self$q_name <- "25%"
+        }
+
+    )
+)
+
+measure_q4_3 <- R6Class("measure_q4_3",
+    inherit = measure_quantile_base,
+    public = list(
+
+        initialize = function(name) {
+            self$name <- name
+            self$q_name <- "75%"
+        }
+
+    )
+)
+
+measure_median <- R6Class("measure_median",
+    inherit = measure_quantile_base,
+    public = list(
+
+        initialize = function(name) {
+            self$name <- name
+            self$q_name <- "50%"
+        }
+
+    )
+)

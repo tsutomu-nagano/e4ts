@@ -2,3 +2,7 @@
 ^e4ts\.Rproj$
 ^\.Rproj\.user$
 ^test.R$
+
+^.devcontainer$
+^assets$
+^docker$
