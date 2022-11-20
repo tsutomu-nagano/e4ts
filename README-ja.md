@@ -2,11 +2,11 @@
 ### `e`ngine `for` statistical tables using `t`idy data`s`.
 
 ## Overview
-e4ts is a library for creating simple statistical tables.
-The main functions are as follows.
-- Conversion of missing values.
-- Total Calculation Settings.
-- Multiple aggregation methods.
+e4ts は簡易に統計表を作成するためのライブラリです。
+主に次の機能があります。
+- 欠測値の変換
+- 合計算出の設定
+- 複数の集計方法
 
 ## Installation
 ### using devtools
@@ -42,7 +42,7 @@ print(st)
 
 ## Other
 ### GUI
-Provides GUI with shiny application.
+shiny アプリケーションによるGUIを提供します。
 ```R
 library(e4ts)
 front(host = "0.0.0.0", port = 3000)
@@ -51,7 +51,7 @@ front(host = "0.0.0.0", port = 3000)
 ![screenshot2](/assets/screenshot2.png)
 
 ### docker
-Provides a docker container with a version of R that can run e4ts.
+e4tsを実行可能なRのバージョンのdockerコンテナを提供します。
 ```sh
 cd docker
 docker-compose up -d
