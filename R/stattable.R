@@ -83,11 +83,8 @@ stattable <- function(
         dplyr::mutate(
             !!func := purrr::map(data, func_calc, base_func = measure)) %>%
         dplyr::mutate(
-            ret = purrr::map(func, func_ret))
-
-
-    dfx <- dfx %>%
-           dplyr::select(-data)
+            ret = purrr::map(func, func_ret)) %>%
+        dplyr::select(-data)
 
 
     columns <- c(dimensions, "func", "ret")
@@ -106,7 +103,7 @@ stattable <- function(
 
                 dfy <- dfx %>%
                         dplyr::select(-dplyr::one_of(c(sumf, "ret"))) %>%
-                        tidyr::nest(-nestf) %>%
+                        tidyr::nest(data = -nestf) %>%
                         dplyr::mutate(
                             !!func := purrr::map(data, func_sum))
 
