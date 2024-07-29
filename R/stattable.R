@@ -57,7 +57,10 @@ stattable <- function(
 
     # measure init and set weight
     measure$init()
-    measure$set_weight(weight)
+
+    if (!is.null(weith)){
+        measure$set_weight(weight)
+    }
 
     func <- "func"
 
