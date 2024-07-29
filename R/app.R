@@ -131,7 +131,7 @@ front <- function(host = "0.0.0.0", port = 3000) {
                 )
             measure <- eval(parse(text = measure_new))
 
-            weight <- ifelse(input$using_weight, input$weight, NULL)
+            weight <- ifelse(input$using_weight, input$weight, "")
             calc_total <- input$calc_total
 
             st <- stattable(
@@ -247,3 +247,4 @@ front <- function(host = "0.0.0.0", port = 3000) {
 
 
 }
+

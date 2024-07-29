@@ -26,7 +26,7 @@ stattable <- function(
     dimensions,
     measure,
     conv = conversion_zero$new(),
-    weight = NULL,
+    weight = "",
     calc_total = FALSE
     ) {
 
@@ -58,7 +58,7 @@ stattable <- function(
     # measure init and set weight
     measure$init()
 
-    if (!is.null(weith)){
+    if (weight != ""){
         measure$set_weight(weight)
     }
 
