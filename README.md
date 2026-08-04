@@ -1,3 +1,9 @@
+
+<p align="center">
+  <img src="assets/logo.png" alt="e4ts logo" width="720">
+</p>
+
+ 
 # e4ts
 [日本語版 README はこちら](https://github.com/tsutomu-nagano/e4ts/blob/main/README-ja.md)
 

@@ -1,3 +1,8 @@
+
+<p align="center">
+  <img src="assets/logo.png" alt="e4ts logo" width="720">
+</p>
+
 # e4ts
 [English README is here](https://github.com/tsutomu-nagano/e4ts/blob/main/README.md)
 
